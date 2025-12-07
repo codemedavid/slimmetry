@@ -367,8 +367,8 @@ const AdminDashboard: React.FC = () => {
           <div className="text-center mb-4 md:mb-6">
             <div className="relative mx-auto w-14 h-14 md:w-16 md:h-16 bg-white rounded-xl flex items-center justify-center mb-4 shadow-sm overflow-hidden border border-gray-200">
               <img
-                src="/assets/logo.jpg"
-                alt="HP GLOW"
+                src="/logo.jpeg"
+                alt="peptalk.ph"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-theme-text/10 flex items-center justify-center">
@@ -1101,14 +1101,14 @@ const AdminDashboard: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm overflow-hidden border border-gray-200">
                   <img
-                    src="/assets/logo.jpg"
-                    alt="HP GLOW"
+                    src="/logo.jpeg"
+                    alt="peptalk.ph"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
                   <h1 className="text-sm md:text-base font-bold text-theme-text">
-                    HP GLOW
+                    peptalk.ph
                   </h1>
                   <p className="text-[9px] md:text-[10px] text-gray-500 font-medium">
                     Admin Dashboard

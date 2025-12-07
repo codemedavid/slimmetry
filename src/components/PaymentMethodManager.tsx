@@ -68,7 +68,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
       alert('Please fill in all required fields (ID, Name, Account Number, and Account Name)');
       return;
     }
-    
+
     // QR code is optional - if missing, a placeholder will be used
     // (Database requires NOT NULL, so we use a placeholder image)
 
@@ -98,7 +98,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
       } else {
         await addPaymentMethod(saveData);
       }
-      
+
       console.log('✅ Payment method saved successfully');
       setCurrentView('list');
       setEditingMethod(null);
@@ -194,7 +194,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
                   disabled={currentView === 'edit'}
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  {currentView === 'edit' 
+                  {currentView === 'edit'
                     ? 'Method ID cannot be changed after creation'
                     : 'Use kebab-case format (e.g., "gcash", "bank-transfer")'
                   }
@@ -219,7 +219,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
                   value={formData.account_name}
                   onChange={(e) => setFormData({ ...formData, account_name: e.target.value })}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-2 border-gold-300/30 rounded-lg focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-colors"
-                  placeholder="HP GLOW"
+                  placeholder="peptalk.ph"
                 />
               </div>
 
@@ -322,7 +322,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
               <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-gold-600" />
               Payment Methods
             </h2>
-            
+
             {paymentMethods.length === 0 ? (
               <div className="text-center py-8">
                 <CreditCard className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 mx-auto mb-4" />
@@ -359,16 +359,15 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
                         <p className="text-xs text-gray-400 mt-1">ID: {method.id} • Order: #{method.sort_order}</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto justify-end sm:justify-start">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                        method.active 
-                          ? 'bg-gold-100 text-gold-800 border border-gold-300' 
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${method.active
+                          ? 'bg-gold-100 text-gold-800 border border-gold-300'
                           : 'bg-gray-100 text-gray-600 border border-gray-300'
-                      }`}>
+                        }`}>
                         {method.active ? 'Active' : 'Inactive'}
                       </span>
-                      
+
                       <button
                         onClick={() => handleEditMethod(method)}
                         className="p-2 text-gold-600 hover:text-gold-700 hover:bg-gold-50 rounded-lg transition-colors duration-200 border border-gold-300/30"
@@ -376,7 +375,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({ onBack }) =
                       >
                         <Edit className="h-4 w-4" />
                       </button>
-                      
+
                       <button
                         onClick={() => handleDeleteMethod(method.id)}
                         className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 border border-red-300/30"

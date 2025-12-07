@@ -34,7 +34,7 @@ const COAManager: React.FC = () => {
     verification_key: '',
     image_url: '/coa/',
     featured: false,
-    manufacturer: 'HP GLOW',
+    manufacturer: 'peptalk.ph',
     laboratory: 'Janoshik Analytical',
   });
 
@@ -70,7 +70,7 @@ const COAManager: React.FC = () => {
         .single();
 
       let error;
-      
+
       if (checkError && checkError.code === 'PGRST116') {
         // Setting doesn't exist, insert it
         const { error: insertError } = await supabase
@@ -102,7 +102,7 @@ const COAManager: React.FC = () => {
         console.error('Error updating COA page setting:', error);
         throw error;
       }
-      
+
       setCoaPageEnabled(enabled);
       alert(enabled ? '✅ COA page is now visible on the website' : '❌ COA page is now hidden from the website');
     } catch (error: any) {
@@ -122,7 +122,7 @@ const COAManager: React.FC = () => {
 
       if (error) {
         console.error('Error fetching COA reports:', error);
-        
+
         // Check if table doesn't exist
         if (error.code === '42P01' || error.message?.includes('does not exist')) {
           alert('❌ COA reports table not found. Please run the database migration to create the table.');
@@ -133,7 +133,7 @@ const COAManager: React.FC = () => {
         }
         throw error;
       }
-      
+
       setCOAReports(data || []);
     } catch (error) {
       console.error('Error fetching COA reports:', error);
@@ -146,7 +146,7 @@ const COAManager: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (editingId) {
         // Update existing report
@@ -224,7 +224,7 @@ const COAManager: React.FC = () => {
       verification_key: '',
       image_url: '/coa/',
       featured: false,
-      manufacturer: 'HP GLOW',
+      manufacturer: 'peptalk.ph',
       laboratory: 'Janoshik Analytical',
     });
   };
@@ -284,7 +284,7 @@ const COAManager: React.FC = () => {
             <Sparkles className="w-5 h-5 text-sky-500" />
             {editingId ? 'Edit COA Report' : 'Add New COA Report'}
           </h3>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
