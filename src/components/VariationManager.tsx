@@ -126,23 +126,23 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-teal-500 to-emerald-600 text-white p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <Package className="w-6 h-6" />
-                Manage Size Variations
+        <div className="bg-theme-bg border-b border-gray-200 p-4 md:p-6">
+          <div className="flex items-start justify-between">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg md:text-xl font-bold text-theme-text flex items-center gap-2">
+                <Package className="w-5 h-5 md:w-6 md:h-6 text-theme-accent" />
+                Manage Variations
               </h2>
-              <p className="text-teal-100 mt-1">Product: {product.name}</p>
-              <p className="text-teal-50 text-sm mt-2 bg-teal-700/30 px-3 py-1.5 rounded-lg inline-block">
-                💡 <strong>These prices</strong> are what customers see on the website!
+              <p className="text-sm text-gray-500 mt-1 truncate">Product: {product.name}</p>
+              <p className="text-xs text-theme-accent mt-2 bg-theme-accent/10 px-3 py-1.5 rounded-lg inline-block">
+                💡 <strong>These prices</strong> are what customers see!
               </p>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors ml-2"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 md:w-6 md:h-6 text-gray-500" />
             </button>
           </div>
         </div>
@@ -269,56 +269,47 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
                       </div>
                     ) : (
                       // View Mode
-                      <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border-2 border-teal-200 rounded-xl p-4 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
+                      <div className="bg-white border border-gray-200 rounded-xl p-3 md:p-4">
+                        <div className="flex items-center gap-3">
                           {/* Thumbnail */}
                           {variation.image_url ? (
                             <img
                               src={variation.image_url}
                               alt={variation.name}
-                              className="w-12 h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0"
+                              className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0"
                             />
                           ) : (
-                            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                              <Package className="w-5 h-5 text-gray-400" />
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Package className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
                             </div>
                           )}
-                          <div className="flex-1 grid grid-cols-4 gap-4">
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Size Name</div>
-                              <div className="font-bold text-gray-900">{variation.name}</div>
-                            </div>
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Quantity</div>
-                              <div className="font-semibold text-gray-700">{variation.quantity_mg}mg</div>
-                            </div>
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Price</div>
-                              <div className="font-semibold text-teal-600">₱{variation.price.toLocaleString()}</div>
-                            </div>
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Stock</div>
-                              <div className="font-semibold text-gray-700">{variation.stock_quantity} units</div>
+                          {/* Info - stacked on mobile */}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-gray-900 text-sm md:text-base truncate">{variation.name}</div>
+                            <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs md:text-sm text-gray-500 mt-0.5">
+                              <span>₱{variation.price.toLocaleString()}</span>
+                              <span>{variation.stock_quantity} units</span>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 ml-4">
-                          <button
-                            onClick={() => handleEditVariation(variation)}
-                            disabled={isProcessing}
-                            className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors disabled:opacity-50"
-                            title="Edit variation"
-                          >
-                            <Edit className="w-5 h-5" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteVariation(variation.id, variation.name)}
-                            disabled={isProcessing}
-                            className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors disabled:opacity-50"
-                            title="Delete variation"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
+                          {/* Actions */}
+                          <div className="flex gap-1 flex-shrink-0">
+                            <button
+                              onClick={() => handleEditVariation(variation)}
+                              disabled={isProcessing}
+                              className="p-1.5 md:p-2 text-theme-accent hover:bg-theme-accent/10 rounded-lg transition-colors disabled:opacity-50"
+                              title="Edit variation"
+                            >
+                              <Edit className="w-4 h-4 md:w-5 md:h-5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteVariation(variation.id, variation.name)}
+                              disabled={isProcessing}
+                              className="p-1.5 md:p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                              title="Delete variation"
+                            >
+                              <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
