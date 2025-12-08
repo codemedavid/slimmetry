@@ -116,11 +116,13 @@ const Cart: React.FC<CartProps> = ({
                             Variation: {item.variation.name}
                           </p>
                         )}
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium bg-green-100 text-green-700">
-                            {item.product.purity_percentage}% Pure
-                          </span>
-                        </div>
+                        {item.product.purity_percentage ? (
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium bg-green-100 text-green-700">
+                              {item.product.purity_percentage}% Pure
+                            </span>
+                          </div>
+                        ) : null}
                       </div>
                       <button
                         onClick={() => removeFromCart(index)}
@@ -197,9 +199,14 @@ const Cart: React.FC<CartProps> = ({
                   <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                   <span className="font-semibold">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
                 </div>
-                <div className="flex justify-between text-gray-700 text-xs md:text-sm">
-                  <span>Shipping</span>
-                  <span className="text-gray-700 font-medium">Make sure to choose your location on the next page so the shipping fee is applied accurately.</span>
+                <div className="flex flex-col gap-1 text-gray-700 text-xs md:text-sm">
+                  <div className="flex justify-between">
+                    <span>Shipping</span>
+                    <span className="text-gray-700 font-medium">Choose your location at checkout.</span>
+                  </div>
+                  <p className="text-gray-500">
+                    Shipping rates apply to small pouches (4.1 × 9.5 inches) with a capacity of up to 3 pens. For bulk orders exceeding this size, our team will contact you for the adjusted shipping fees.
+                  </p>
                 </div>
 
                 <div className="border-t-2 border-dashed border-gray-200 pt-3 mt-4">

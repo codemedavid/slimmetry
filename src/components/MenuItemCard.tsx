@@ -64,11 +64,10 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
 
       {/* Product Image */}
       <div className="relative h-48 bg-gray-50 overflow-hidden rounded-t-lg">
-        {/* Show variation image if selected and available, otherwise show product image */}
-        {(selectedVariation?.image_url || product.image_url) ? (
+        {product.image_url ? (
           <img
-            src={selectedVariation?.image_url || product.image_url || ''}
-            alt={selectedVariation ? `${product.name} - ${selectedVariation.name}` : product.name}
+            src={product.image_url}
+            alt={product.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
@@ -102,12 +101,12 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
       </div>
 
       {/* Product Details */}
-      <div className="p-3 sm:p-4 flex-1 flex flex-col">
-        <h3 className="font-semibold text-theme-text mb-1 line-clamp-2 text-sm sm:text-base">{product.name}</h3>
-        <p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">{product.description}</p>
+      <div className="p-4 flex-1 flex flex-col">
+        <h3 className="font-semibold text-theme-text mb-1 line-clamp-2">{product.name}</h3>
+        <p className="text-sm text-gray-500 mb-3 line-clamp-2 min-h-[2.5rem]">{product.description}</p>
 
         {/* Variations (Sizes) */}
-        <div className="mb-2 sm:mb-4 min-h-[2.5rem] sm:min-h-[4rem]">
+        <div className="mb-4 min-h-[4rem]">
           {product.variations && product.variations.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {product.variations.slice(0, 3).map((variation) => {
@@ -148,9 +147,9 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
         <div className="flex-1" />
 
         {/* Price and Cart Actions */}
-        <div className="flex flex-col gap-2 sm:gap-3 mt-2">
+        <div className="flex flex-col gap-3 mt-2">
           <div className="flex items-baseline gap-2">
-            <span className="text-base sm:text-lg font-bold text-theme-text">
+            <span className="text-lg font-bold text-theme-text">
               ₱{currentPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
             </span>
             {hasDiscount && (
@@ -160,7 +159,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 relative z-20">
+          <div className="flex items-center gap-2 relative z-20">
             {/* Quantity Controls */}
             <div className="flex items-center border border-gray-200 rounded-md">
               <button
@@ -168,12 +167,12 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                   e.stopPropagation();
                   decrementQuantity();
                 }}
-                className="p-1 sm:p-1.5 hover:bg-gray-50 transition-colors"
+                className="p-1.5 hover:bg-gray-50 transition-colors"
                 disabled={!hasAnyStock}
               >
-                <Minus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
+                <Minus className="w-4 h-4 text-gray-500" />
               </button>
-              <span className="w-6 sm:w-8 text-center text-xs sm:text-sm font-medium text-theme-text">
+              <span className="w-8 text-center text-sm font-medium text-theme-text">
                 {quantity}
               </span>
               <button
@@ -181,10 +180,10 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                   e.stopPropagation();
                   incrementQuantity();
                 }}
-                className="p-1 sm:p-1.5 hover:bg-gray-50 transition-colors"
+                className="p-1.5 hover:bg-gray-50 transition-colors"
                 disabled={quantity >= availableStock || !hasAnyStock}
               >
-                <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
+                <Plus className="w-4 h-4 text-gray-500" />
               </button>
             </div>
 
@@ -200,9 +199,9 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                 handleAddToCart();
               }}
               disabled={!hasAnyStock || availableStock === 0}
-              className="flex-1 bg-theme-text text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 sm:gap-2"
+              className="flex-1 bg-theme-text text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
+              <ShoppingCart className="w-4 h-4" />
               <span>Add</span>
             </button>
           </div>

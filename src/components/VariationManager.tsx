@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { Plus, Edit, Trash2, Save, X, Package, Upload } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Edit, Trash2, Save, X, Package } from 'lucide-react';
 import type { Product, ProductVariation } from '../types';
 import { useMenu } from '../hooks/useMenu';
-import { useImageUpload } from '../hooks/useImageUpload';
 
 interface VariationManagerProps {
   product: Product;
@@ -11,9 +10,6 @@ interface VariationManagerProps {
 
 const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose }) => {
   const { addVariation, updateVariation, deleteVariation } = useMenu();
-  const { uploadImage, uploading } = useImageUpload('variation-images');
-  const editFileInputRef = useRef<HTMLInputElement>(null);
-  const newFileInputRef = useRef<HTMLInputElement>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -22,21 +18,19 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
     name: '',
     quantity_mg: 5.0,
     price: product.base_price,
-    stock_quantity: 0,
-    image_url: ''
+    stock_quantity: 0
   });
 
   const [editingVariation, setEditingVariation] = useState({
     name: '',
     quantity_mg: 5.0,
     price: product.base_price,
-    stock_quantity: 0,
-    image_url: ''
+    stock_quantity: 0
   });
 
   const handleAddVariation = async () => {
-    if (!newVariation.name || newVariation.price <= 0) {
-      alert('Please fill in name and price');
+    if (!newVariation.name || newVariation.price <= 0 || newVariation.quantity_mg <= 0) {
+      alert('Please fill in all fields correctly');
       return;
     }
 
@@ -47,8 +41,7 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
         name: newVariation.name,
         quantity_mg: newVariation.quantity_mg,
         price: newVariation.price,
-        stock_quantity: newVariation.stock_quantity,
-        image_url: newVariation.image_url || undefined
+        stock_quantity: newVariation.stock_quantity
       });
 
       if (result.success) {
@@ -56,8 +49,7 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
           name: '',
           quantity_mg: 5.0,
           price: product.base_price,
-          stock_quantity: 0,
-          image_url: ''
+          stock_quantity: 0
         });
         setIsAdding(false);
         alert('Variation added successfully!');
@@ -77,24 +69,20 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
       name: variation.name,
       quantity_mg: variation.quantity_mg,
       price: variation.price,
-      stock_quantity: variation.stock_quantity,
-      image_url: variation.image_url || ''
+      stock_quantity: variation.stock_quantity
     });
     setIsAdding(false);
   };
 
   const handleUpdateVariation = async () => {
-    if (!editingId || !editingVariation.name || editingVariation.price <= 0) {
-      alert('Please fill in name and price');
+    if (!editingId || !editingVariation.name || editingVariation.price <= 0 || editingVariation.quantity_mg <= 0) {
+      alert('Please fill in all fields correctly');
       return;
     }
 
     try {
       setIsProcessing(true);
-      const result = await updateVariation(editingId, {
-        ...editingVariation,
-        image_url: editingVariation.image_url || undefined
-      });
+      const result = await updateVariation(editingId, editingVariation);
       if (result.success) {
         setEditingId(null);
         alert('Variation updated successfully!');
@@ -130,23 +118,23 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-theme-bg border-b border-gray-200 p-4 md:p-6">
-          <div className="flex items-start justify-between">
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg md:text-xl font-bold text-theme-text flex items-center gap-2">
-                <Package className="w-5 h-5 md:w-6 md:h-6 text-theme-accent" />
-                Manage Variations
+        <div className="bg-gradient-to-r from-teal-500 to-emerald-600 text-white p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold flex items-center gap-2">
+                <Package className="w-6 h-6" />
+                Manage Size Variations
               </h2>
-              <p className="text-sm text-gray-500 mt-1 truncate">Product: {product.name}</p>
-              <p className="text-xs text-theme-accent mt-2 bg-theme-accent/10 px-3 py-1.5 rounded-lg inline-block">
-                💡 <strong>These prices</strong> are what customers see!
+              <p className="text-teal-100 mt-1">Product: {product.name}</p>
+              <p className="text-teal-50 text-sm mt-2 bg-teal-700/30 px-3 py-1.5 rounded-lg inline-block">
+                💡 <strong>These prices</strong> are what customers see on the website!
               </p>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors ml-2"
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
             >
-              <X className="w-5 h-5 md:w-6 md:h-6 text-gray-500" />
+              <X className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -156,7 +144,7 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
           {/* Current Variations */}
           <div className="mb-6">
             <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-              Current Variations
+              Current Sizes
               <span className="text-sm font-normal text-gray-500">
                 ({product.variations?.length || 0} variations)
               </span>
@@ -180,7 +168,7 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                              Variation Name *
+                              Size Name *
                             </label>
                             <input
                               type="text"
@@ -192,7 +180,7 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
 
                           <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                              Quantity (mg)
+                              Quantity (mg) *
                             </label>
                             <input
                               type="number"
@@ -229,61 +217,6 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
                           </div>
                         </div>
 
-                        {/* Image Upload */}
-                        <div className="mt-4">
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Variation Image (Optional)
-                          </label>
-                          <div className="flex items-center gap-3">
-                            {editingVariation.image_url ? (
-                              <div className="relative">
-                                <img
-                                  src={editingVariation.image_url}
-                                  alt="Variation"
-                                  className="w-16 h-16 object-cover rounded-lg border border-gray-200"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => setEditingVariation({ ...editingVariation, image_url: '' })}
-                                  className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full text-xs"
-                                >
-                                  <X className="w-3 h-3" />
-                                </button>
-                              </div>
-                            ) : (
-                              <div
-                                onClick={() => editFileInputRef.current?.click()}
-                                className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-theme-accent transition-colors"
-                              >
-                                {uploading ? (
-                                  <div className="animate-spin w-5 h-5 border-2 border-theme-accent border-t-transparent rounded-full" />
-                                ) : (
-                                  <Upload className="w-5 h-5 text-gray-400" />
-                                )}
-                              </div>
-                            )}
-                            <input
-                              ref={editFileInputRef}
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={async (e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  try {
-                                    const url = await uploadImage(file);
-                                    setEditingVariation({ ...editingVariation, image_url: url });
-                                  } catch (err) {
-                                    alert('Failed to upload image');
-                                  }
-                                }
-                                e.target.value = '';
-                              }}
-                            />
-                            <span className="text-xs text-gray-500">Click to upload</span>
-                          </div>
-                        </div>
-
                         <div className="flex gap-3 pt-4">
                           <button
                             onClick={handleUpdateVariation}
@@ -304,47 +237,42 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
                       </div>
                     ) : (
                       // View Mode
-                      <div className="bg-white border border-gray-200 rounded-xl p-3 md:p-4">
-                        <div className="flex items-center gap-3">
-                          {/* Thumbnail */}
-                          {variation.image_url ? (
-                            <img
-                              src={variation.image_url}
-                              alt={variation.name}
-                              className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0"
-                            />
-                          ) : (
-                            <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                              <Package className="w-4 h-4 md:w-5 md:h-5 text-gray-400" />
-                            </div>
-                          )}
-                          {/* Info - stacked on mobile */}
-                          <div className="flex-1 min-w-0">
-                            <div className="font-bold text-gray-900 text-sm md:text-base truncate">{variation.name}</div>
-                            <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs md:text-sm text-gray-500 mt-0.5">
-                              <span>₱{variation.price.toLocaleString()}</span>
-                              <span>{variation.stock_quantity} units</span>
-                            </div>
+                      <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border-2 border-teal-200 rounded-xl p-4 flex items-center justify-between">
+                        <div className="flex-1 grid grid-cols-4 gap-4">
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">Size Name</div>
+                            <div className="font-bold text-gray-900">{variation.name}</div>
                           </div>
-                          {/* Actions */}
-                          <div className="flex gap-1 flex-shrink-0">
-                            <button
-                              onClick={() => handleEditVariation(variation)}
-                              disabled={isProcessing}
-                              className="p-1.5 md:p-2 text-theme-accent hover:bg-theme-accent/10 rounded-lg transition-colors disabled:opacity-50"
-                              title="Edit variation"
-                            >
-                              <Edit className="w-4 h-4 md:w-5 md:h-5" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteVariation(variation.id, variation.name)}
-                              disabled={isProcessing}
-                              className="p-1.5 md:p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                              title="Delete variation"
-                            >
-                              <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
-                            </button>
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">Quantity</div>
+                            <div className="font-semibold text-gray-700">{variation.quantity_mg}mg</div>
                           </div>
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">Price</div>
+                            <div className="font-semibold text-teal-600">₱{variation.price.toLocaleString()}</div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">Stock</div>
+                            <div className="font-semibold text-gray-700">{variation.stock_quantity} units</div>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 ml-4">
+                          <button
+                            onClick={() => handleEditVariation(variation)}
+                            disabled={isProcessing}
+                            className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors disabled:opacity-50"
+                            title="Edit variation"
+                          >
+                            <Edit className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteVariation(variation.id, variation.name)}
+                            disabled={isProcessing}
+                            className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors disabled:opacity-50"
+                            title="Delete variation"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
                         </div>
                       </div>
                     )}
@@ -364,17 +292,17 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white rounded-lg font-medium transition-all shadow-md hover:shadow-lg mb-4"
             >
               <Plus className="w-5 h-5" />
-              {isAdding ? 'Cancel' : 'Add New Variation'}
+              {isAdding ? 'Cancel' : 'Add New Size'}
             </button>
 
             {isAdding && (
               <div className="bg-white border-2 border-teal-300 rounded-xl p-6 space-y-4">
-                <h4 className="font-bold text-gray-900 mb-4">New Variation</h4>
+                <h4 className="font-bold text-gray-900 mb-4">New Size Variation</h4>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Variation Name *
+                      Size Name *
                     </label>
                     <input
                       type="text"
@@ -387,7 +315,7 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Quantity (mg)
+                      Quantity (mg) *
                     </label>
                     <input
                       type="number"
@@ -421,61 +349,6 @@ const VariationManager: React.FC<VariationManagerProps> = ({ product, onClose })
                       onChange={(e) => setNewVariation({ ...newVariation, stock_quantity: parseInt(e.target.value) || 0 })}
                       className="input-field"
                     />
-                  </div>
-                </div>
-
-                {/* Image Upload */}
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Variation Image (Optional)
-                  </label>
-                  <div className="flex items-center gap-3">
-                    {newVariation.image_url ? (
-                      <div className="relative">
-                        <img
-                          src={newVariation.image_url}
-                          alt="Preview"
-                          className="w-16 h-16 object-cover rounded-lg border border-gray-200"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setNewVariation({ ...newVariation, image_url: '' })}
-                          className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full text-xs"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => newFileInputRef.current?.click()}
-                        className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-theme-accent transition-colors"
-                      >
-                        {uploading ? (
-                          <div className="animate-spin w-5 h-5 border-2 border-theme-accent border-t-transparent rounded-full" />
-                        ) : (
-                          <Upload className="w-5 h-5 text-gray-400" />
-                        )}
-                      </div>
-                    )}
-                    <input
-                      ref={newFileInputRef}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          try {
-                            const url = await uploadImage(file);
-                            setNewVariation({ ...newVariation, image_url: url });
-                          } catch (err) {
-                            alert('Failed to upload image');
-                          }
-                        }
-                        e.target.value = '';
-                      }}
-                    />
-                    <span className="text-xs text-gray-500">Click to upload</span>
                   </div>
                 </div>
 

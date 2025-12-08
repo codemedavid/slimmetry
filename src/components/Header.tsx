@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCOAPageSetting } from '../hooks/useCOAPageSetting';
-import { ShoppingCart, Menu, X, MessageCircle, Sparkles, Instagram, Phone } from 'lucide-react';
+import { ShoppingCart, Menu, X, MessageCircle } from 'lucide-react';
 
 interface HeaderProps {
   cartItemsCount: number;
@@ -13,10 +13,8 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
   const { coaPageEnabled } = useCOAPageSetting();
 
   // Contact Links
-  const messengerMessage = encodeURIComponent('Hi! I am interested in your products.');
-  const messengerUrl = `https://m.me/renalyndv?text=${messengerMessage}`;
-  const instagramUrl = 'https://www.instagram.com/hpglowpeptides';
-  const viberUrl = `tel:+639062349763`; // Opens phone/Viber on mobile devices
+  const whatsappMessage = encodeURIComponent('Hi! I am interested in your products.');
+  const whatsappUrl = `https://wa.me/639062349763?text=${whatsappMessage}`;
 
   return (
     <>
@@ -31,19 +29,19 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
               <div className="relative flex-shrink-0">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border border-gray-200">
                   <img
-                    src="/logo.jpeg"
-                    alt="peptalk.ph"
+                    src="/assets/logo.jpg"
+                    alt="HP GLOW"
                     className="w-full h-full object-cover"
                   />
                 </div>
               </div>
               <div className="text-left min-w-0 flex-1">
                 <h1 className="text-lg sm:text-xl font-bold text-theme-text leading-tight whitespace-nowrap overflow-hidden text-ellipsis tracking-tight">
-                  peptalk.ph
+                  HP GLOW
                 </h1>
                 <p className="text-xs text-gray-500 font-medium flex items-center gap-1">
                   <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    Premium Peptides
+                    Peptides & Essentials
                   </span>
                 </p>
               </div>
@@ -68,13 +66,13 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
                   </a>
                 )}
                 <a
-                  href={messengerUrl}
+                  href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-gray-600 hover:text-theme-accent transition-colors text-sm font-medium"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  Messenger
+                  WhatsApp
                 </a>
               </nav>
 
@@ -137,34 +135,14 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
                 )}
                 <div className="pt-4 border-t border-gray-100 flex flex-col gap-3">
                   <a
-                    href={instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-gray-600 hover:text-theme-accent transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Instagram className="w-5 h-5" />
-                    <span className="text-sm font-medium">Instagram</span>
-                  </a>
-                  <a
-                    href={viberUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-gray-600 hover:text-theme-accent transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Phone className="w-5 h-5" />
-                    <span className="text-sm font-medium">Viber</span>
-                  </a>
-                  <a
-                    href={messengerUrl}
+                    href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 text-gray-600 hover:text-theme-accent transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <MessageCircle className="w-5 h-5" />
-                    <span className="text-sm font-medium">Messenger</span>
+                    <span className="text-sm font-medium">WhatsApp</span>
                   </a>
                 </div>
               </div>

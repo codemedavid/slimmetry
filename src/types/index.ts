@@ -41,7 +41,6 @@ export interface ProductVariation {
   quantity_mg: number;
   price: number;
   stock_quantity: number;
-  image_url?: string;
   created_at: string;
 }
 

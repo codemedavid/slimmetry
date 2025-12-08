@@ -25,7 +25,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [shippingLocation, setShippingLocation] = useState<'NCR' | 'LUZON' | 'VISAYAS_MINDANAO' | 'LALAMOVE' | ''>('');
+  const [shippingLocation, setShippingLocation] = useState<'NCR' | 'LUZON' | 'VISAYAS_MINDANAO' | ''>('');
 
   // Payment
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -53,13 +53,11 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
 
     switch (shippingLocation) {
       case 'NCR':
-        return 160;
+        return 75;
       case 'LUZON':
-        return 100;
+        return 165;
       case 'VISAYAS_MINDANAO':
-        return 130;
-      case 'LALAMOVE':
-        return 0; // Fee to be discussed
+        return 190;
       default:
         return 0;
     }
@@ -88,7 +86,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
 
   const handlePlaceOrder = async () => {
     if (!contactMethod) {
-      alert('Please confirm WhatsApp as your contact method.');
+      alert('Please select your preferred contact method (WhatsApp).');
       return;
     }
 
@@ -170,7 +168,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
       });
 
       const orderDetails = `
-✨ peptalk.ph - NEW ORDER
+✨ HP GLOW - NEW ORDER
 
 📅 ORDER DATE & TIME
 ${dateTimeStamp}
@@ -192,7 +190,9 @@ ${cartItems.map(item => {
           line += ` (${item.variation.name})`;
         }
         line += ` x${item.quantity} - ₱${(item.price * item.quantity).toLocaleString('en-PH', { minimumFractionDigits: 0 })}`;
-        line += `\n  Purity: ${item.product.purity_percentage}%`;
+        if (item.product.purity_percentage) {
+          line += `\n  Purity: ${item.product.purity_percentage}%`;
+        }
         return line;
       }).join('\n\n')}
 
@@ -209,7 +209,7 @@ ${paymentMethod ? `Account: ${paymentMethod.account_number}` : ''}
 Please attach your payment screenshot when sending this message.
 
 📱 CONTACT METHOD
-WhatsApp: wa.me/639241036416
+WhatsApp: https://wa.me/639062349763
 
 📋 ORDER ID: ${orderData.id}
 
@@ -219,9 +219,11 @@ Please confirm this order. Thank you!
       // Store order message for copying
       setOrderMessage(orderDetails);
 
-      // Open WhatsApp with order message
-      const whatsappMessage = encodeURIComponent(orderDetails);
-      const contactUrl = `https://wa.me/639241036416?text=${whatsappMessage}`;
+      // Open contact method based on selection
+      const contactUrl = contactMethod === 'whatsapp'
+        ? `https://wa.me/639062349763?text=${encodeURIComponent(orderDetails)}`
+        : null;
+
       if (contactUrl) {
         try {
           const contactWindow = window.open(contactUrl, '_blank');
@@ -277,9 +279,13 @@ Please confirm this order. Thank you!
   };
 
   const handleOpenContact = () => {
-    const whatsappMessage = encodeURIComponent(orderMessage);
-    const contactUrl = `https://wa.me/639241036416?text=${whatsappMessage}`;
-    window.open(contactUrl, '_blank');
+    const contactUrl = contactMethod === 'whatsapp'
+      ? `https://wa.me/639062349763?text=${encodeURIComponent(orderMessage)}`
+      : null;
+
+    if (contactUrl) {
+      window.open(contactUrl, '_blank');
+    }
   };
 
   if (step === 'confirmation') {
@@ -339,7 +345,7 @@ Please confirm this order. Thank you!
             <div className="space-y-3 mb-8">
               <button
                 onClick={handleOpenContact}
-                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-black to-gray-900 hover:from-gray-900 hover:to-black text-white py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-2 border border-gold-500/20"
               >
                 <MessageCircle className="w-5 h-5" />
                 Open WhatsApp
@@ -372,7 +378,7 @@ Please confirm this order. Thank you!
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">4️⃣</span>
-                  <span>Tracking numbers are sent via Viber from 11 PM onwards.</span>
+                  <span>Tracking numbers are sent via WhatsApp from 11 PM onwards.</span>
                 </li>
               </ul>
             </div>
@@ -550,48 +556,38 @@ Please confirm this order. Thank you!
                   Choose Shipping Location *
                 </h2>
                 <p className="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">
-                  Covers up to 4 sets/boxes. Any added fees will be discussed after check out.
+                  Shipping rates apply to small pouches (4.1 × 9.5 inches) with a capacity of up to 3 pens. For bulk orders exceeding this size, our team will contact you for the adjusted shipping fees.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <button
                     onClick={() => setShippingLocation('NCR')}
                     className={`p-3 rounded-lg border-2 transition-all ${shippingLocation === 'NCR'
-                      ? 'border-gold-500 bg-gold-50'
-                      : 'border-gray-200 hover:border-gold-300'
+                        ? 'border-gold-500 bg-gold-50'
+                        : 'border-gray-200 hover:border-gold-300'
                       }`}
                   >
                     <p className="font-semibold text-gray-900 text-sm">NCR</p>
-                    <p className="text-xs text-gray-500">₱160</p>
+                    <p className="text-xs text-gray-500">₱75</p>
                   </button>
                   <button
                     onClick={() => setShippingLocation('LUZON')}
                     className={`p-3 rounded-lg border-2 transition-all ${shippingLocation === 'LUZON'
-                      ? 'border-gold-500 bg-gold-50'
-                      : 'border-gray-200 hover:border-gold-300'
+                        ? 'border-gold-500 bg-gold-50'
+                        : 'border-gray-200 hover:border-gold-300'
                       }`}
                   >
                     <p className="font-semibold text-gray-900 text-sm">LUZON</p>
-                    <p className="text-sm text-gray-500">₱100</p>
+                    <p className="text-xs text-gray-500">₱165</p>
                   </button>
                   <button
                     onClick={() => setShippingLocation('VISAYAS_MINDANAO')}
                     className={`p-3 rounded-lg border-2 transition-all ${shippingLocation === 'VISAYAS_MINDANAO'
-                      ? 'border-gold-500 bg-gold-50'
-                      : 'border-gray-200 hover:border-gold-300'
+                        ? 'border-gold-500 bg-gold-50'
+                        : 'border-gray-200 hover:border-gold-300'
                       }`}
                   >
                     <p className="font-semibold text-gray-900 text-sm">VISAYAS & MINDANAO</p>
-                    <p className="text-sm text-gray-500">₱130</p>
-                  </button>
-                  <button
-                    onClick={() => setShippingLocation('LALAMOVE')}
-                    className={`p-3 rounded-lg border-2 transition-all ${shippingLocation === 'LALAMOVE'
-                      ? 'border-gold-500 bg-gold-50'
-                      : 'border-gray-200 hover:border-gold-300'
-                      }`}
-                  >
-                    <p className="font-semibold text-gray-900 text-sm">LALAMOVE</p>
-                    <p className="text-xs text-gray-500">Fee TBD</p>
+                    <p className="text-xs text-gray-500">₱190</p>
                   </button>
                 </div>
               </div>
@@ -600,8 +596,8 @@ Please confirm this order. Thank you!
                 onClick={handleProceedToPayment}
                 disabled={!isDetailsValid}
                 className={`w-full py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg transition-all transform shadow-lg ${isDetailsValid
-                  ? 'bg-gradient-to-r from-black to-gray-900 hover:from-gray-900 hover:to-black text-white hover:scale-105 hover:shadow-xl border border-gold-500/20'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-gradient-to-r from-black to-gray-900 hover:from-gray-900 hover:to-black text-white hover:scale-105 hover:shadow-xl border border-gold-500/20'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
               >
                 Proceed to Payment ✨
@@ -625,9 +621,11 @@ Please confirm this order. Thank you!
                           {item.variation && (
                             <p className="text-xs text-gold-600 mt-1">{item.variation.name}</p>
                           )}
-                          <p className="text-xs text-gray-500 mt-1">
-                            {item.product.purity_percentage}% Purity
-                          </p>
+                          {item.product.purity_percentage ? (
+                            <p className="text-xs text-gray-500 mt-1">
+                              {item.product.purity_percentage}% Purity
+                            </p>
+                          ) : null}
                         </div>
                         <span className="font-semibold text-gray-900 text-sm">
                           ₱{(item.price * item.quantity).toLocaleString('en-PH', { minimumFractionDigits: 0 })}
@@ -698,19 +696,19 @@ Please confirm this order. Thank you!
                 Choose Shipping Location *
               </h2>
               <p className="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">
-                Covers up to 4 sets/boxes. Any added fees will be discussed after check out.
+                Shipping rates apply to small pouches (4.1 × 9.5 inches) with a capacity of up to 3 pens. For bulk orders exceeding this size, our team will contact you for the adjusted shipping fees.
               </p>
               <div className="grid grid-cols-1 gap-3">
                 <button
                   onClick={() => setShippingLocation('NCR')}
                   className={`p-4 rounded-lg border-2 transition-all flex items-center justify-between ${shippingLocation === 'NCR'
-                    ? 'border-gold-500 bg-gold-50'
-                    : 'border-gray-200 hover:border-gold-300'
+                      ? 'border-gold-500 bg-gold-50'
+                      : 'border-gray-200 hover:border-gold-300'
                     }`}
                 >
                   <div className="text-left">
                     <p className="font-semibold text-gray-900">NCR</p>
-                    <p className="text-sm text-gray-500">₱160</p>
+                    <p className="text-sm text-gray-500">₱75</p>
                   </div>
                   {shippingLocation === 'NCR' && (
                     <div className="w-6 h-6 bg-gold-500 rounded-full flex items-center justify-center">
@@ -721,13 +719,13 @@ Please confirm this order. Thank you!
                 <button
                   onClick={() => setShippingLocation('LUZON')}
                   className={`p-4 rounded-lg border-2 transition-all flex items-center justify-between ${shippingLocation === 'LUZON'
-                    ? 'border-gold-500 bg-gold-50'
-                    : 'border-gray-200 hover:border-gold-300'
+                      ? 'border-gold-500 bg-gold-50'
+                      : 'border-gray-200 hover:border-gold-300'
                     }`}
                 >
                   <div className="text-left">
                     <p className="font-semibold text-gray-900">LUZON</p>
-                    <p className="text-sm text-gray-500">₱100</p>
+                    <p className="text-sm text-gray-500">₱165</p>
                   </div>
                   {shippingLocation === 'LUZON' && (
                     <div className="w-6 h-6 bg-gold-500 rounded-full flex items-center justify-center">
@@ -738,32 +736,15 @@ Please confirm this order. Thank you!
                 <button
                   onClick={() => setShippingLocation('VISAYAS_MINDANAO')}
                   className={`p-4 rounded-lg border-2 transition-all flex items-center justify-between ${shippingLocation === 'VISAYAS_MINDANAO'
-                    ? 'border-gold-500 bg-gold-50'
-                    : 'border-gray-200 hover:border-gold-300'
+                      ? 'border-gold-500 bg-gold-50'
+                      : 'border-gray-200 hover:border-gold-300'
                     }`}
                 >
                   <div className="text-left">
                     <p className="font-semibold text-gray-900">VISAYAS & MINDANAO</p>
-                    <p className="text-sm text-gray-500">₱130</p>
+                    <p className="text-sm text-gray-500">₱190</p>
                   </div>
                   {shippingLocation === 'VISAYAS_MINDANAO' && (
-                    <div className="w-6 h-6 bg-gold-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs">✓</span>
-                    </div>
-                  )}
-                </button>
-                <button
-                  onClick={() => setShippingLocation('LALAMOVE')}
-                  className={`p-4 rounded-lg border-2 transition-all flex items-center justify-between ${shippingLocation === 'LALAMOVE'
-                    ? 'border-gold-500 bg-gold-50'
-                    : 'border-gray-200 hover:border-gold-300'
-                    }`}
-                >
-                  <div className="text-left">
-                    <p className="font-semibold text-gray-900">LALAMOVE</p>
-                    <p className="text-sm text-gray-500">Fee TBD</p>
-                  </div>
-                  {shippingLocation === 'LALAMOVE' && (
                     <div className="w-6 h-6 bg-gold-500 rounded-full flex items-center justify-center">
                       <span className="text-white text-xs">✓</span>
                     </div>
@@ -787,8 +768,8 @@ Please confirm this order. Thank you!
                     key={method.id}
                     onClick={() => setSelectedPaymentMethod(method.id)}
                     className={`p-4 rounded-lg border-2 transition-all flex items-center justify-between ${selectedPaymentMethod === method.id
-                      ? 'border-gold-500 bg-gold-50'
-                      : 'border-gray-200 hover:border-gold-300'
+                        ? 'border-gold-500 bg-gold-50'
+                        : 'border-gray-200 hover:border-gold-300'
                       }`}
                   >
                     <div className="flex items-center gap-3">
@@ -834,27 +815,34 @@ Please confirm this order. Thank you!
               )}
             </div>
 
-            {/* Contact Method - WhatsApp Only */}
+            {/* Contact Method Selection */}
             <div className="bg-white rounded-2xl shadow-lg p-5 md:p-6 border-2 border-gold-300/30">
               <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2">
-                <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-green-600" />
-                Contact Method
+                <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-gold-600" />
+                Preferred Contact Method *
               </h2>
-              <div className="p-4 rounded-lg border-2 border-green-500 bg-green-50 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <MessageCircle className="w-6 h-6 text-green-600" />
-                  <div className="text-left">
-                    <p className="font-semibold text-gray-900">WhatsApp</p>
-                    <p className="text-sm text-gray-500">+63 924 103 6416</p>
+              <div className="grid grid-cols-1 gap-3">
+                <button
+                  onClick={() => setContactMethod('whatsapp')}
+                  className={`p-4 rounded-lg border-2 transition-all flex items-center justify-between ${contactMethod === 'whatsapp'
+                      ? 'border-gold-500 bg-gold-50'
+                      : 'border-gray-200 hover:border-gold-300'
+                    }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <MessageCircle className="w-6 h-6 text-gold-600" />
+                    <div className="text-left">
+                      <p className="font-semibold text-gray-900">WhatsApp</p>
+                      <p className="text-sm text-gray-500">+63 906 234 9763</p>
+                    </div>
                   </div>
-                </div>
-                <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
+                  {contactMethod === 'whatsapp' && (
+                    <div className="w-6 h-6 bg-gold-600 rounded-full flex items-center justify-center">
+                      <span className="text-black text-xs font-bold">✓</span>
+                    </div>
+                  )}
+                </button>
               </div>
-              <p className="text-xs text-gray-500 mt-3">
-                After checkout, you'll be redirected to WhatsApp to send your order details.
-              </p>
             </div>
 
             {/* Additional Notes */}
@@ -878,8 +866,8 @@ Please confirm this order. Thank you!
               onClick={handlePlaceOrder}
               disabled={!contactMethod || !shippingLocation}
               className={`w-full py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${contactMethod && shippingLocation
-                ? 'bg-gradient-to-r from-black to-gray-900 hover:from-gray-900 hover:to-black text-white hover:shadow-xl transform hover:scale-105 border border-gold-500/20'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-gradient-to-r from-black to-gray-900 hover:from-gray-900 hover:to-black text-white hover:shadow-xl transform hover:scale-105 border border-gold-500/20'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
             >
               <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" />

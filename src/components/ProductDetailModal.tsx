@@ -23,6 +23,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
 
   const hasDiscount = product.discount_active && product.discount_price;
   const currentPrice = selectedVariation?.price || (hasDiscount ? product.discount_price! : product.base_price);
+  const showPurity = Boolean(product.purity_percentage);
 
   // Check if product has any available stock
   const hasAnyStock = product.variations && product.variations.length > 0
@@ -51,10 +52,12 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
           <div className="pr-10 sm:pr-12">
             <h2 className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1.5 sm:mb-2 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">{product.name}</h2>
             <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 flex-wrap">
-              <span className="inline-flex items-center px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 rounded-full text-[10px] sm:text-xs md:text-sm font-semibold bg-gold-500/20 backdrop-blur-sm border border-gold-500/40 text-gold-300">
-                <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 mr-0.5 sm:mr-1" />
-                {product.purity_percentage}% Pure
-              </span>
+              {showPurity && (
+                <span className="inline-flex items-center px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 rounded-full text-[10px] sm:text-xs md:text-sm font-semibold bg-gold-500/20 backdrop-blur-sm border border-gold-500/40 text-gold-300">
+                  <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 mr-0.5 sm:mr-1" />
+                  {product.purity_percentage}% Pure
+                </span>
+              )}
               {product.featured && (
                 <span className="inline-flex items-center px-1.5 py-0.5 sm:px-2 sm:py-1 md:px-3 md:py-1 rounded-full text-[10px] sm:text-xs md:text-sm font-semibold bg-gold-500/20 backdrop-blur-sm border border-gold-500/40 text-gold-300">
                   ⭐ Featured
@@ -75,19 +78,15 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
             {/* Left Column */}
             <div className="space-y-3 sm:space-y-4 md:space-y-6">
               {/* Product Image */}
-              <div className="relative h-40 sm:h-48 md:h-56 lg:h-64 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg sm:rounded-xl overflow-hidden border-2 border-gold-300/30 shadow-lg">
-                {(selectedVariation?.image_url || product.image_url) ? (
+              {product.image_url && (
+                <div className="relative h-40 sm:h-48 md:h-56 lg:h-64 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg sm:rounded-xl overflow-hidden border-2 border-gold-300/30 shadow-lg">
                   <img
-                    src={selectedVariation?.image_url || product.image_url || ''}
-                    alt={selectedVariation ? `${product.name} - ${selectedVariation.name}` : product.name}
+                    src={product.image_url}
+                    alt={product.name}
                     className="w-full h-full object-cover"
                   />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Package className="w-12 h-12 sm:w-16 sm:h-16 text-gray-300" />
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Description */}
               <div>
@@ -123,10 +122,12 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
                   Scientific Information
                 </h3>
                 <div className="space-y-1.5 sm:space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 text-[11px] sm:text-xs md:text-sm">Purity:</span>
-                    <span className="font-semibold text-gold-600 text-[11px] sm:text-xs md:text-sm">{product.purity_percentage}%</span>
-                  </div>
+                  {showPurity && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 text-[11px] sm:text-xs md:text-sm">Purity:</span>
+                      <span className="font-semibold text-gold-600 text-[11px] sm:text-xs md:text-sm">{product.purity_percentage}%</span>
+                    </div>
+                  )}
                   <div className="flex justify-between">
                     <span className="text-gray-600 text-[11px] sm:text-xs md:text-sm">Storage:</span>
                     <span className="font-medium text-gray-700 text-[11px] sm:text-xs md:text-sm">{product.storage_conditions}</span>
@@ -134,10 +135,10 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
                   <div className="flex justify-between">
                     <span className="text-gray-600 text-[11px] sm:text-xs md:text-sm">Stock:</span>
                     <span className={`font-medium text-[11px] sm:text-xs md:text-sm ${(product.variations && product.variations.length > 0
-                      ? product.variations.some(v => v.stock_quantity > 0)
-                      : product.stock_quantity > 0)
-                      ? 'text-gold-600'
-                      : 'text-red-600'
+                        ? product.variations.some(v => v.stock_quantity > 0)
+                        : product.stock_quantity > 0)
+                        ? 'text-gold-600'
+                        : 'text-red-600'
                       }`}>
                       {product.variations && product.variations.length > 0
                         ? product.variations.reduce((sum, v) => sum + v.stock_quantity, 0)
@@ -168,11 +169,11 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
                   )}
                 </div>
 
-                {/* Variation Selection */}
+                {/* Size Selection */}
                 {product.variations && product.variations.length > 0 && (
                   <div className="mb-3 sm:mb-4">
                     <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2">
-                      Select Variation:
+                      Select Size:
                     </label>
                     <select
                       value={selectedVariation?.id || ''}
@@ -201,7 +202,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
                     </select>
                     {selectedVariation && selectedVariation.stock_quantity === 0 && (
                       <p className="text-xs text-red-600 mt-1.5 font-semibold">
-                        ⚠️ This variation is currently out of stock. Please select another.
+                        ⚠️ This size is currently out of stock. Please select another size.
                       </p>
                     )}
                   </div>
