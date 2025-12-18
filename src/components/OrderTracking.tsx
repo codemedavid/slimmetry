@@ -129,7 +129,7 @@ const OrderTracking: React.FC = () => {
                             <div className="bg-navy-900 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 text-white">
                                 <div>
                                     <p className="text-white text-sm font-semibold uppercase tracking-wider mb-1">Order Status</p>
-                                    <h2 className="text-2xl font-bold capitalize flex items-center gap-2">
+                                    <h2 className="text-2xl font-bold capitalize flex items-center gap-2 text-white">
                                         {order.order_status === 'new' && <Clock className="w-6 h-6" />}
                                         {order.order_status === 'confirmed' && <CheckCircle className="w-6 h-6 text-gold-400" />}
                                         {order.order_status === 'processing' && <Package className="w-6 h-6 text-blue-400" />}

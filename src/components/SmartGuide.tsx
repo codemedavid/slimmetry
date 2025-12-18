@@ -65,7 +65,7 @@ export default function SmartGuide() {
                         </a>
                         <div className="flex items-center gap-2">
                             <BookOpen className="w-6 h-6 text-gold-500" />
-                            <h1 className="text-xl md:text-2xl font-bold text-navy-900">Educational Articles</h1>
+                            <h1 className="text-xl md:text-2xl font-bold text-navy-900">Peptalk</h1>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ export default function SmartGuide() {
                         {articles.map((article) => (
                             <div
                                 key={article.id}
-                                onClick={() => navigate(`/smart-guide/${article.id}`)}
+                                onClick={() => navigate(`/peptalk/${article.id}`)}
                                 className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-100"
                             >
                                 {/* Cover Image */}

@@ -61,7 +61,7 @@ export default function ArticleDetail() {
                 <div className="text-center">
                     <h2 className="text-2xl font-bold text-navy-900 mb-4">Article Not Found</h2>
                     <button
-                        onClick={() => navigate('/smart-guide')}
+                        onClick={() => navigate('/peptalk')}
                         className="text-theme-accent hover:underline"
                     >
                         Back to Articles
@@ -77,11 +77,11 @@ export default function ArticleDetail() {
             <div className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
                 <div className="container mx-auto px-4 py-4">
                     <button
-                        onClick={() => navigate('/smart-guide')}
+                        onClick={() => navigate('/peptalk')}
                         className="flex items-center gap-2 text-gray-600 hover:text-navy-900 transition-colors group"
                     >
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-medium">Back to Articles</span>
+                        <span className="font-medium">Back to Peptalk</span>
                     </button>
                 </div>
             </div>
@@ -136,13 +136,15 @@ export default function ArticleDetail() {
 
                 {/* Back Button (Bottom) */}
                 <div className="mt-8 text-center">
-                    <button
-                        onClick={() => navigate('/smart-guide')}
-                        className="inline-flex items-center gap-2 bg-navy-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-navy-800 transition-colors shadow-md hover:shadow-lg"
-                    >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to All Articles
-                    </button>
+                    <div className="mt-8 text-center">
+                        <button
+                            onClick={() => navigate('/peptalk')}
+                            className="inline-flex items-center gap-2 bg-navy-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-navy-800 transition-colors shadow-md hover:shadow-lg"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            Back to Peptalk
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

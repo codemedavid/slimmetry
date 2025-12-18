@@ -84,11 +84,11 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
                   FAQ
                 </a>
                 <a
-                  href="/smart-guide"
+                  href="/peptalk"
                   className="text-sm font-medium text-gray-600 hover:text-theme-accent transition-colors flex items-center gap-1"
                 >
                   <BookOpen className="w-4 h-4" />
-                  Smart Guide
+                  Peptalk
                 </a>
                 <a
                   href="https://t.me/+kdn_GOqZXxI1Y2Jl"
@@ -210,13 +210,13 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount, onCartClick, onMenuClic
                   FAQ
                 </a>
                 <a
-                  href="/smart-guide"
+                  href="/peptalk"
                   className="flex items-center gap-3 p-3 rounded-xl text-left font-medium text-base text-navy-900 hover:bg-navy-50 hover:text-navy-900 transition-all group"
                 >
                   <div className="p-2 rounded-lg bg-navy-50 group-hover:bg-white group-hover:shadow-sm border border-transparent group-hover:border-navy-600 transition-all">
                     <BookOpen className="w-5 h-5 text-gold-500" />
                   </div>
-                  Smart Guide
+                  Peptalk
                 </a>
                 <a
                   href="https://t.me/+kdn_GOqZXxI1Y2Jl"

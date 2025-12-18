@@ -1352,7 +1352,7 @@ const AdminDashboard: React.FC = () => {
                   <div className="p-1.5 bg-purple-50 rounded-lg">
                     <BookOpen className="h-4 w-4 text-purple-600" />
                   </div>
-                  <span className="text-sm font-medium text-gray-900">Smart Guides</span>
+                  <span className="text-sm font-medium text-gray-900">Peptalk</span>
                 </button>
                 <button
                   onClick={() => setCurrentView('settings')}

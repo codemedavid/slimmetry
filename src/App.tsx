@@ -107,8 +107,8 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/calculator" element={<PeptideCalculator />} />
         <Route path="/track-order" element={<OrderTracking />} />
-        <Route path="/smart-guide" element={<SmartGuide />} />
-        <Route path="/smart-guide/:id" element={<ArticleDetail />} />
+        <Route path="/peptalk" element={<SmartGuide />} />
+        <Route path="/peptalk/:id" element={<ArticleDetail />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
