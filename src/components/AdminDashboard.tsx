@@ -402,7 +402,7 @@ const AdminDashboard: React.FC = () => {
               )}
             </div>
 
-            <button type="submit" className="w-full bg-navy-900 hover:bg-navy-800 text-white py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+            <button type="submit" className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
               Access Dashboard
             </button>
           </form>
@@ -444,14 +444,14 @@ const AdminDashboard: React.FC = () => {
                   </h1>
                 </div>
                 <div className="flex space-x-1.5">
-                  <button onClick={handleCancel} className="px-2 py-1 border border-gray-300 hover:border-gray-400 rounded-md hover:bg-gray-50 transition-all flex items-center gap-1 text-xs">
+                  <button onClick={handleCancel} className="px-2 py-1 bg-gray-100 border border-gray-300 hover:border-gray-400 rounded-md hover:bg-gray-200 transition-all flex items-center gap-1 text-xs text-gray-700">
                     <X className="h-3 w-3" />
                     <span className="hidden sm:inline">Cancel</span>
                   </button>
                   <button
                     onClick={handleSaveProduct}
                     disabled={isProcessing}
-                    className="bg-theme-accent hover:bg-theme-accent/90 text-white px-2 md:px-3 py-1 rounded-md transition-all flex items-center gap-1 shadow-sm hover:shadow disabled:opacity-50 text-xs"
+                    className="bg-gray-900 hover:bg-gray-800 text-white px-2 md:px-3 py-1 rounded-md transition-all flex items-center gap-1 shadow-sm hover:shadow disabled:opacity-50 text-xs"
                   >
                     <Save className="h-3 w-3" />
                     {isProcessing ? 'Saving...' : 'Save'}
@@ -784,7 +784,7 @@ const AdminDashboard: React.FC = () => {
                   <button
                     onClick={handleRefresh}
                     disabled={isRefreshing}
-                    className="bg-navy-900 hover:bg-navy-800 text-white px-2 py-1 rounded-md font-medium text-xs shadow-sm hover:shadow transition-all flex items-center gap-1 disabled:opacity-50 border border-navy-900/20"
+                    className="bg-gray-900 hover:bg-gray-800 text-white px-2 py-1 rounded-md font-medium text-xs shadow-sm hover:shadow transition-all flex items-center gap-1 disabled:opacity-50 border border-gray-900/20"
                     title="Refresh data"
                   >
                     <RefreshCw className={`h-3 w-3 ${isRefreshing ? 'animate-spin' : ''}`} />
@@ -803,7 +803,7 @@ const AdminDashboard: React.FC = () => {
                   )}
                   <button
                     onClick={handleAddProduct}
-                    className="bg-theme-accent hover:bg-theme-accent/90 text-white px-2 md:px-3 py-1 rounded-md font-medium text-xs shadow-sm hover:shadow transition-all flex items-center gap-1"
+                    className="bg-gray-900 hover:bg-gray-800 text-white px-2 md:px-3 py-1 rounded-md font-medium text-xs shadow-sm hover:shadow transition-all flex items-center gap-1"
                   >
                     <Plus className="h-3 w-3" />
                     <span className="hidden sm:inline">Add New</span>
@@ -967,7 +967,7 @@ const AdminDashboard: React.FC = () => {
                         <td className="px-4 py-2">
                           {product.variations && product.variations.length > 0 ? (
                             <div>
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-theme-accent">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-600 text-white">
                                 {product.variations.length} {product.variations.length === 1 ? 'size' : 'sizes'}
                               </span>
                               <div className="text-[9px] text-gray-500 mt-0.5">
@@ -979,7 +979,7 @@ const AdminDashboard: React.FC = () => {
                           )}
                         </td>
                         <td className="px-4 py-2">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-gray-700">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-600 text-white">
                             {product.purity_percentage}%
                           </span>
                         </td>
@@ -989,7 +989,7 @@ const AdminDashboard: React.FC = () => {
                         <td className="px-4 py-2 hidden xl:table-cell">
                           <div className="flex flex-col gap-0.5">
                             {product.featured && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-theme-accent">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-600 text-white">
                                 ⭐ Featured
                               </span>
                             )}
