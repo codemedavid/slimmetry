@@ -205,14 +205,13 @@ const Cart: React.FC<CartProps> = ({
                     <span className="text-charcoal-500 font-medium">Calculated at checkout</span>
                   </div>
                   <div className="mt-2 space-y-1 text-charcoal-400">
-                    <p className="font-semibold text-deep-blue-500">J&T Shipping Rates:</p>
+                    <p className="font-semibold text-deep-blue-500">LBC Shipping Rates:</p>
                     <ul className="list-disc pl-4 space-y-0.5">
-                      <li>Luzon: ₱150</li>
-                      <li>Visayas: ₱120</li>
-                      <li>Mindanao: ₱90</li>
+                      <li>Metro Manila: ₱150</li>
+                      <li>Provincial: ₱200</li>
                     </ul>
-                    <p className="font-semibold text-deep-blue-500 mt-2">Maxim Delivery:</p>
-                    <p className="pl-4">₱0 (Booking fee paid by customer upon delivery)</p>
+                    <p className="font-semibold text-deep-blue-500 mt-2">Lalamove:</p>
+                    <p className="pl-4">Fee paid by customer upon booking</p>
                   </div>
                 </div>
 

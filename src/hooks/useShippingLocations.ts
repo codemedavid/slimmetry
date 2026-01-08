@@ -11,10 +11,9 @@ export interface ShippingLocation {
 
 // Default shipping locations (fallback if database table doesn't exist)
 const defaultLocations: ShippingLocation[] = [
-    { id: 'LUZON', name: 'Luzon (J&T)', fee: 150, is_active: true, order_index: 1 },
-    { id: 'VISAYAS', name: 'Visayas (J&T)', fee: 120, is_active: true, order_index: 2 },
-    { id: 'MINDANAO', name: 'Mindanao (J&T)', fee: 90, is_active: true, order_index: 3 },
-    { id: 'MAXIM', name: 'Maxim Delivery (Booking fee paid by customer upon delivery)', fee: 0, is_active: true, order_index: 4 },
+    { id: 'LBC_METRO', name: 'LBC - Metro Manila', fee: 150, is_active: true, order_index: 1 },
+    { id: 'LBC_PROVINCIAL', name: 'LBC - Provincial', fee: 200, is_active: true, order_index: 2 },
+    { id: 'LALAMOVE', name: 'Lalamove (Metro Manila / Davao)', fee: 0, is_active: true, order_index: 3 },
 ];
 
 export const useShippingLocations = () => {
