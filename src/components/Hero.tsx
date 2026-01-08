@@ -219,7 +219,7 @@ const Hero: React.FC<HeroProps> = ({ onShopAll }) => {
 
           {/* Badge */}
           <div
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-teal-50 border border-teal-200 mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-teal-50 border border-teal-200 mb-8 transition-all duration-700 max-w-full ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
           >
             <Leaf className="w-4 h-4 text-leaf-green-500" />
@@ -228,7 +228,7 @@ const Hero: React.FC<HeroProps> = ({ onShopAll }) => {
 
           {/* Main Headline */}
           <h1
-            className={`font-poppins text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-deep-blue-500 tracking-tighter leading-[0.9] mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            className={`font-poppins text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-deep-blue-500 tracking-tighter leading-[0.9] mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
           >
             <span className="block">Glow.Slim.Transform</span>
@@ -259,7 +259,7 @@ const Hero: React.FC<HeroProps> = ({ onShopAll }) => {
           >
             <button
               onClick={onShopAll}
-              className="group relative overflow-hidden bg-teal-500 text-white px-10 py-4 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 shadow-glow hover:shadow-glow-lg transform hover:-translate-y-1 hover:bg-teal-600"
+              className="group relative overflow-hidden bg-teal-500 text-white px-10 py-4 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 shadow-glow hover:shadow-glow-lg transform hover:-translate-y-1 hover:bg-teal-600 w-full sm:w-auto"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Explore Products
@@ -270,7 +270,7 @@ const Hero: React.FC<HeroProps> = ({ onShopAll }) => {
 
             <a
               href="/coa"
-              className="group flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-sm text-deep-blue-500 hover:text-teal-600 border border-deep-blue-200 hover:border-teal-400 hover:bg-teal-50 transition-all duration-300"
+              className="group flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-sm text-deep-blue-500 hover:text-teal-600 border border-deep-blue-200 hover:border-teal-400 hover:bg-teal-50 transition-all duration-300 w-full sm:w-auto"
             >
               <Shield className="w-4 h-4" />
               View Lab Reports
