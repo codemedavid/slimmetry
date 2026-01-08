@@ -1409,18 +1409,6 @@ const AdminDashboard: React.FC = () => {
                     <span className="text-xs text-gray-500">Manage content</span>
                   </div>
                 </button>
-                <button
-                  onClick={() => setCurrentView('settings')}
-                  className="group flex items-center gap-3 p-3 text-left hover:bg-gray-50 rounded-xl transition-all border border-transparent hover:border-gray-200 col-span-1 sm:col-span-2"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Settings className="h-5 w-5 text-gray-600" />
-                  </div>
-                  <div>
-                    <span className="block text-sm font-semibold text-gray-900 group-hover:text-gray-900 transition-colors">Site Settings</span>
-                    <span className="text-xs text-gray-500">Global configuration</span>
-                  </div>
-                </button>
               </div>
             </div>
 
