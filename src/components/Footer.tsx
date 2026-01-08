@@ -7,24 +7,18 @@ const Footer: React.FC = () => {
   const { coaPageEnabled } = useCOAPageSetting();
 
   return (
-    <footer className="bg-[#0a0a0a] border-t border-white/10 pt-16 pb-8">
+    <footer className="bg-deep-blue-500 pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
 
-          {/* Brand Section */}
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/20 shadow-glow">
+          {/* Brand Section - Logo Only */}
+          <div className="flex items-center">
+            <div className="h-12 md:h-14 bg-white rounded-lg p-2">
               <img
                 src="/assets/logo.jpg"
-                alt="X Peptide"
-                className="w-full h-full object-cover"
+                alt="SLIMMETRY"
+                className="h-full w-auto object-contain"
               />
-            </div>
-            <div className="text-left">
-              <div className="font-black text-white text-xl tracking-tight">
-                X PEPTIDE
-              </div>
-              <div className="text-xs text-gray-500">Premium Research Peptides</div>
             </div>
           </div>
 
@@ -32,14 +26,14 @@ const Footer: React.FC = () => {
           <div className="flex flex-wrap items-center gap-4 justify-center md:justify-end">
             <a
               href="/track-order"
-              className="text-gray-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
+              className="text-teal-200 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
             >
               <Truck className="w-4 h-4" />
               Track
             </a>
             <a
               href="/calculator"
-              className="text-gray-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
+              className="text-teal-200 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
             >
               <Calculator className="w-4 h-4" />
               Calculator
@@ -47,7 +41,7 @@ const Footer: React.FC = () => {
             {coaPageEnabled && (
               <a
                 href="/coa"
-                className="text-gray-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
+                className="text-teal-200 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
               >
                 <FileText className="w-4 h-4" />
                 Lab Tests
@@ -55,7 +49,7 @@ const Footer: React.FC = () => {
             )}
             <a
               href="/faq"
-              className="text-gray-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
+              className="text-teal-200 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
             >
               <HelpCircle className="w-4 h-4" />
               FAQ
@@ -65,14 +59,17 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6" />
+        <div className="h-px bg-gradient-to-r from-transparent via-teal-400/30 to-transparent mb-6" />
 
         {/* Footer Bottom */}
         <div className="text-center">
-          <p className="text-xs text-gray-600 flex items-center justify-center gap-1">
+          <p className="text-xs text-teal-200/60 flex items-center justify-center gap-1">
             Made with
-            <Heart className="w-3 h-3 text-white/50 fill-white/50" />
-            © {currentYear} X Peptide. All rights reserved.
+            <Heart className="w-3 h-3 text-leaf-green-400 fill-leaf-green-400" />
+            © {currentYear} SLIMMETRY. All rights reserved.
+          </p>
+          <p className="text-xs text-teal-200/40 mt-2">
+            Science-guided weight and metabolic support for real-life wellness.
           </p>
         </div>
       </div>
