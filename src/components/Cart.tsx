@@ -50,6 +50,12 @@ const Cart: React.FC<CartProps> = ({
   }
 
   const totalPrice = getTotalPrice();
+  const originalTotal = cartItems.reduce((sum, item) => {
+    const originalUnitPrice = item.variation ? item.variation.price : item.product.base_price;
+    return sum + originalUnitPrice * item.quantity;
+  }, 0);
+  const totalSavings = originalTotal - totalPrice;
+  const savingsPercent = originalTotal > 0 ? Math.round((totalSavings / originalTotal) * 100) : 0;
   // Shipping fee will be discussed via chat
   const finalTotal = totalPrice;
 
@@ -172,12 +178,37 @@ const Cart: React.FC<CartProps> = ({
                       </div>
 
                       <div className="text-right">
-                        <div className="text-xl md:text-2xl font-bold text-teal-600">
-                          ₱{(item.price * item.quantity).toLocaleString('en-PH', { minimumFractionDigits: 0 })}
-                        </div>
-                        <div className="text-[10px] md:text-xs text-charcoal-500">
-                          ₱{item.price.toLocaleString('en-PH', { minimumFractionDigits: 0 })} each
-                        </div>
+                        {(() => {
+                          const originalUnitPrice = item.variation ? item.variation.price : item.product.base_price;
+                          const hasDiscount = item.price < originalUnitPrice;
+                          const savings = (originalUnitPrice - item.price) * item.quantity;
+                          const percent = hasDiscount ? Math.round((1 - item.price / originalUnitPrice) * 100) : 0;
+                          return (
+                            <>
+                              {hasDiscount && (
+                                <div className="text-[10px] md:text-xs text-charcoal-400 line-through">
+                                  ₱{(originalUnitPrice * item.quantity).toLocaleString('en-PH', { minimumFractionDigits: 0 })}
+                                </div>
+                              )}
+                              <div className="text-xl md:text-2xl font-bold text-teal-600">
+                                ₱{(item.price * item.quantity).toLocaleString('en-PH', { minimumFractionDigits: 0 })}
+                              </div>
+                              <div className="text-[10px] md:text-xs text-charcoal-500">
+                                ₱{item.price.toLocaleString('en-PH', { minimumFractionDigits: 0 })} each
+                              </div>
+                              {hasDiscount && (
+                                <div className="mt-1 inline-flex flex-col items-end gap-0.5">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-bold bg-red-100 text-red-600">
+                                    {percent}% OFF
+                                  </span>
+                                  <span className="text-[10px] md:text-xs font-semibold text-leaf-green-600">
+                                    You save ₱{savings.toLocaleString('en-PH', { minimumFractionDigits: 0 })}
+                                  </span>
+                                </div>
+                              )}
+                            </>
+                          );
+                        })()}
                       </div>
                     </div>
                   </div>
@@ -195,6 +226,23 @@ const Cart: React.FC<CartProps> = ({
               </h2>
 
               <div className="space-y-3 mb-6">
+                {totalSavings > 0 && (
+                  <div className="flex justify-between text-charcoal-500 text-sm md:text-base">
+                    <span>Original Price</span>
+                    <span className="line-through text-charcoal-400">₱{originalTotal.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
+                  </div>
+                )}
+                {totalSavings > 0 && (
+                  <div className="flex justify-between items-center text-sm md:text-base">
+                    <span className="text-leaf-green-600 font-semibold flex items-center gap-2">
+                      Discount
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-bold bg-red-100 text-red-600">
+                        {savingsPercent}% OFF
+                      </span>
+                    </span>
+                    <span className="font-bold text-leaf-green-600">−₱{totalSavings.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-charcoal-500 text-sm md:text-base">
                   <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                   <span className="font-semibold">₱{totalPrice.toLocaleString('en-PH', { minimumFractionDigits: 0 })}</span>
