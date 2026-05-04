@@ -30,7 +30,9 @@ export function useCart() {
       return;
     }
 
-    const price = variation ? variation.price : (product.discount_active && product.discount_price ? product.discount_price : product.base_price);
+    const price = variation
+      ? (variation.discount_active && variation.discount_price ? variation.discount_price : variation.price)
+      : (product.discount_active && product.discount_price ? product.discount_price : product.base_price);
     
     const existingItemIndex = cartItems.findIndex(
       item => item.product.id === product.id && 
