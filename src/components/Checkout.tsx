@@ -63,13 +63,14 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, totalPrice, onBack }) =>
     }
   }, [paymentMethods, selectedPaymentMethod]);
 
-  // Free shipping only applies when the order contains a Tirzepatide product.
-  const hasTirzepatide = cartItems.some(item =>
-    item.product.name.toLowerCase().includes('tirzepatide')
-  );
+  // Free shipping only applies when the order contains a Tirzepatide or Retatrutide product.
+  const hasFreeShippingItem = cartItems.some(item => {
+    const name = item.product.name.toLowerCase();
+    return name.includes('tirzepatide') || name.includes('retatrutide');
+  });
 
-  // Calculate shipping fee (Free if Tirzepatide, else flat 150)
-  const shippingFee = hasTirzepatide ? 0 : 150;
+  // Calculate shipping fee (Free if Tirzepatide/Retatrutide, else flat 150)
+  const shippingFee = hasFreeShippingItem ? 0 : 150;
 
   // Calculate final total (Subtotal + Shipping - Discount)
   const finalTotal = Math.max(0, totalPrice + shippingFee - discountAmount);
@@ -721,7 +722,7 @@ Please confirm this order. Thank you!
                         }`}
                     >
                       <p className="font-semibold text-navy-900 text-sm">{loc.id.replace('_', ' & ')}</p>
-                      <p className="text-xs text-gray-500">{hasTirzepatide ? 'FREE' : '₱150'}</p>
+                      <p className="text-xs text-gray-500">{hasFreeShippingItem ? 'FREE' : '₱150'}</p>
                     </button>
                   ))}
                 </div>
@@ -871,11 +872,11 @@ Please confirm this order. Thank you!
 
                   <div className="flex justify-between text-gray-600 text-xs">
                     <span>Shipping</span>
-                    <span className={`font-medium ${hasTirzepatide ? 'text-green-600' : 'text-gold-600'}`}>
+                    <span className={`font-medium ${hasFreeShippingItem ? 'text-green-600' : 'text-gold-600'}`}>
                       {!shippingLocation
                         ? 'Select location'
-                        : hasTirzepatide
-                          ? 'FREE (Tirzepatide order)'
+                        : hasFreeShippingItem
+                          ? 'FREE'
                           : `₱${shippingFee.toLocaleString('en-PH', { minimumFractionDigits: 0 })}`}
                     </span>
                   </div>
@@ -1166,10 +1167,10 @@ Please confirm this order. Thank you!
                 )}
                 <div className="flex justify-between text-gray-600 text-xs">
                   <span>Shipping</span>
-                  <span className={`font-medium ${hasTirzepatide ? 'text-green-600' : 'text-gold-600'}`}>
+                  <span className={`font-medium ${hasFreeShippingItem ? 'text-green-600' : 'text-gold-600'}`}>
                     {!shippingLocation
                       ? 'Select location'
-                      : hasTirzepatide
+                      : hasFreeShippingItem
                         ? `FREE (${shippingLocation.replace('_', ' & ')})`
                         : `₱${shippingFee.toLocaleString('en-PH', { minimumFractionDigits: 0 })} (${shippingLocation.replace('_', ' & ')})`}
                   </span>
